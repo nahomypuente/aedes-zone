@@ -37,24 +37,39 @@ var jsontData = JSON.parse(fs.readFileSync('./final-json.in', 'utf8'));
 
 // Functions
 
-var isIn = (elem, arr) => {
-    return(arr.indexOf(elem) != -1);
+var isIn = (nombre, arr) => {
+    return(arr.some(function(elem){ return elem.provincia == nombre}));
 }
 
-var getProvinces = (jss) => {
+var getProvince = (prov, jss) => {
     let provinces = [];
     for(let i = 0; i<jss.length; i++) {
+
+        var num_de_casos = parseInt(jss[i].cantidad_casos);
         if(!isIn(jss[i].provincia_nombre, provinces)){
-            provinces.push(jss[i].provincia_nombre);
+        	let enf = jss[i].evento_nombre;
+            provinces.push({
+            	provincia: jss[i].provincia_nombre,
+            	enfermedad: enf,
+            	numero_de_casos: num_de_casos
+            });
+
+        } else
+        {
+			var provincia = provinces.find(function(elem) { return elem.provincia ==jss[i].provincia_nombre });
+			
+			provincia.numero_de_casos += num_de_casos;
         }
+
+
     }
     return provinces
 }
 
 
-var provincias = getProvinces(jsontData);
 
+var provincia = getProvince('', jsontData);
 
 app.listen(3000, () => {
-	console.log(provincias)
+	console.log(provincia)
 })
