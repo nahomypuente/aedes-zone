@@ -34,6 +34,8 @@ var data = JSON.stringify(json_result);
 fs.writeFileSync('./final-json.in', data);
 var jsontData = JSON.parse(fs.readFileSync('./final-json.in', 'utf8'));
 
+//Routes
+app.use('/api/zone',require('./routes/zone/provinces'));
 
 // Functions
 
