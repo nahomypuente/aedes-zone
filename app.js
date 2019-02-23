@@ -9,6 +9,7 @@ var path = require('path');
 var csvjson = require('csvjson');
 var bodyParser = require('body-parser');
 
+
 app.use(express.static('./public'));
 
 var request = http.get(URL_CSV, function(response) {
@@ -21,18 +22,39 @@ var request = http.get(URL_CSV, function(response) {
         request.abort();
     });
 });
+
 var options = {
   delimiter: ',',
   quote: '"'
 };
 
-
 var file_data = fs.readFileSync('./file-csv.csv', { encoding: 'utf8' });
 var json_result = csvjson.toObject(file_data, options);
 var data = JSON.stringify(json_result);
-//fs.writeFileSync('', data);
+fs.writeFileSync('./final-json.in', data);
+var jsontData = JSON.parse(fs.readFileSync('./final-json.in', 'utf8'));
+
+
+// Functions
+
+var isIn = (elem, arr) => {
+    return(arr.indexOf(elem) != -1);
+}
+
+var getProvinces = (jss) => {
+    let provinces = [];
+    for(let i = 0; i<jss.length; i++) {
+        if(!isIn(jss[i].provincia_nombre, provinces)){
+            provinces.push(jss[i].provincia_nombre);
+        }
+    }
+    return provinces
+}
+
+
+var provincias = getProvinces(jsontData);
 
 
 app.listen(3000, () => {
-	console.log((data))
+	console.log(provincias)
 })
