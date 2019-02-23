@@ -34,8 +34,6 @@ var data = JSON.stringify(json_result);
 fs.writeFileSync('./final-json.in', data);
 var jsontData = JSON.parse(fs.readFileSync('./final-json.in', 'utf8'));
 
-//Routes
-app.use('/api/zone',require('./routes/zone/provinces'));
 
 // Functions
 
@@ -72,6 +70,26 @@ var getProvince = (prov, jss) => {
 
 var provincia = getProvince('', jsontData);
 
+
+//Routes
+
+const router = express.Router();
+
+router.get('/provinces', async (req, res) => {
+    console.log("entro");
+  res.status(200).json(provincia);
+});
+
+router.get('/provinces/:nombre', async (req, res) => {
+    var nombreProv = req.params.nombre;
+  res.status(200).json(provincia.find(function(elem){ return elem.provincia == nombreProv}));
+});
+
+
+app.use(router);
+
+
+
 app.listen(3000, () => {
-	console.log(provincia)
+	console.log("listen in localhost:3000");
 })

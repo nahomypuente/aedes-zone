@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/provinces', async (req, res) => {
-  console.log("en get provinces");
+  console.log("en get provinces")
   });
   
   
