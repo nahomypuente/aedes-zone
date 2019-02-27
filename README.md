@@ -6,7 +6,6 @@ Config:
 
 1) $ npm i concurrently -D
 2) $ cd client 
-  *  $ yarn
-  *  $ yarn start
+  *  ../client$ yarn
 3) $ cd ..
-  * $ npm run dev
+  * /aedes-zone$ npm run dev
