@@ -9,8 +9,9 @@ var path = require('path');
 var csvjson = require('csvjson');
 var bodyParser = require('body-parser');
 
-
+var port = process.env.PORT || 5000;
 app.use(express.static('./public'));
+
 
 var request = http.get(URL_CSV, function(response) {
     if (response.statusCode === 200) {
@@ -75,12 +76,12 @@ var provincia = getProvince('', jsontData);
 
 const router = express.Router();
 
-router.get('/provinces', async (req, res) => {
+router.get('/api/provinces', async (req, res) => {
     console.log("entro");
   res.status(200).json(provincia);
 });
 
-router.get('/provinces/:nombre', async (req, res) => {
+router.get('/api/provinces/:nombre', async (req, res) => {
     var nombreProv = req.params.nombre;
   res.status(200).json(provincia.find(function(elem){ return elem.provincia == nombreProv}));
 });
@@ -90,6 +91,6 @@ app.use(router);
 
 
 
-app.listen(3000, () => {
-	console.log("listen in localhost:3000");
+app.listen(port, () => {
+	console.log(`Listening on port ${port}`);
 })
