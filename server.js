@@ -76,16 +76,20 @@ var provincia = getProvince('', jsontData);
 
 const router = express.Router();
 
-router.get('/api/provinces', async (req, res) => {
+router.get('/api/provinces/:nombre', (req, res) => {
+  var nombreProv = req.params.nombre;
+  console.log(nombreProv);
+  res.status(200).json(
+    provincia.find((elem) => { 
+      return elem.provincia == nombreProv
+    })
+  );
+});
+
+router.get('/api/provinces', (req, res) => {
     console.log("entro");
   res.status(200).json(provincia);
 });
-
-router.get('/api/provinces/:nombre', async (req, res) => {
-    var nombreProv = req.params.nombre;
-  res.status(200).json(provincia.find(function(elem){ return elem.provincia == nombreProv}));
-});
-
 
 app.use(router);
 
