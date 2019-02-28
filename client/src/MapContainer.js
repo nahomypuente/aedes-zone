@@ -1,41 +1,50 @@
-import React, {Component} from 'react';
-import './App.css';
+///* global google */
+import React, { Component } from "react";
+import { Map, Marker, InfoWindow, GoogleApiWrapper } from "google-maps-react";
 
 export class MapContainer extends Component {
-  componentDidMount() {
-    this.renderMap()
-  }
 
-  renderMap = () => {
-    loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyCDPo0EeLCKbnKRAk6MqzHMKnTzPhty2vs&callback=initMap")
-    window.initMap = this.initMap
-  }
-  initMap = () => {
-    // eslint-disable-next-line
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
-    });
-  }
+  render() {
+    //const google = window.google;
+    //const data = this.props.data;
+    //const center = this.props.center;
 
-    render() {
-      return (
-        <main>
-          <div id="map"></div>
-        </main>
-      );
-    }
-  }
+    return (
+      <div className="map-container">
+        <Map
+          google={this.props.google}
+          className={"map"}
+          zoom={this.props.zoom}
+          initialCenter={this.props.center}
+        >
 
-  function loadScript(url) {
-    var index = window.document.getElementsByTagName("script")[0]
-    var script = window.document.createElement("script")
-    script.src = url
-    script.async = true
-    script.defer = true
-    index.parentNode.insertBefore(script, index)
+          { this.props.selectedItem.boolselect ? (<Marker
+              key={this.props.selectedItem.id}
+              title={this.props.selectedItem.name}
+              name={this.props.selectedItem.name}
+              position={{ 
+                lat: this.props.selectedItem.lat, 
+                lng: this.props.selectedItem.lng }}
+            />) : ('')}
+
+
+          <InfoWindow
+            visible={true}
+            position={{
+              lat: this.props.selectedItem.lat,
+              lng: this.props.selectedItem.lng
+            }}
+          >
+            <div>
+              <h1>Numero de casos: {this.props.selectedItem.cases_number}</h1>
+            </div>
+          </InfoWindow>
+        </Map>
+      </div>
+    );
   }
-  
-  
-   
-  export default MapContainer;
+}
+
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyCDPo0EeLCKbnKRAk6MqzHMKnTzPhty2vs"
+})(MapContainer);
