@@ -9,3 +9,12 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+li {
+  cursor: pointer;
+}
