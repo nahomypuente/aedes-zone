@@ -2,22 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import IdProvince from './IdProvince';
 
-
-//import ReactGoogleMapLoader from "react-google-maps-loader";
-import { MapContainer } from './MapContainer';
- 
-/*const App = () => 
-  <ReactGoogleMapLoader
-    params={{
-        key: 'AIzaSyCxOVwgsPOtfK23pycSjwRAqL8BcpmkSvg', // Define your api key here
-        libraries: "places,geometry", // To request multiple libraries, separate them with a comma
-    }}
-    render={googleMaps =>
-        googleMaps && (
-            <div>Google Maps is loaded !</div>
-        )}
-    />*/
-
 class Provinces extends Component {
   constructor(props) {
     super();
@@ -92,6 +76,12 @@ class Provinces extends Component {
   };
 
   render() {
+    if(this.state.loading) {
+      return(
+        <h1>Loading...</h1>
+      )
+    }
+    else {
       const provinces = this.state.provinces.map((prov, i) => 
         /*change provincia to name*/
         <option key={i} onClick={() => { this.handleClick(prov.provincia) }}>
@@ -107,10 +97,10 @@ class Provinces extends Component {
           </select>
           <button>Buscar</button>
           </form>
-          <MapContainer/>
           { (this.state.province_select) ? (<IdProvince prov_data={this.state.province_data}/>) : ('') }
         </div>
       );
+    }
   };
 };
 
