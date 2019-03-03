@@ -1,4 +1,3 @@
-///* global google */
 import React, { Component } from "react";
 import { Map, Marker, InfoWindow, GoogleApiWrapper } from "google-maps-react";
 
@@ -15,26 +14,25 @@ export class MapContainer extends Component {
           google={this.props.google}
           className={"map"}
           zoom={this.props.zoom}
-          initialCenter={this.props.center}
-        >
+          initialCenter={this.props.center} >
 
-          { this.props.selectedItem.boolselect ? (<Marker
+          { (this.props.selectedItem.boolselect) ? 
+            (<Marker
               key={this.props.selectedItem.id}
               title={this.props.selectedItem.name}
               name={this.props.selectedItem.name}
               position={{ 
                 lat: this.props.selectedItem.lat, 
                 lng: this.props.selectedItem.lng }}
-            />) : ('')}
-
+            />) : ('')
+          }
 
           <InfoWindow
             visible={true}
             position={{
               lat: this.props.selectedItem.lat,
               lng: this.props.selectedItem.lng
-            }}
-          >
+            }}>
             <div>
               <h1>Numero de casos: {this.props.selectedItem.cases_number}</h1>
             </div>

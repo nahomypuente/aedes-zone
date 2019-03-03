@@ -9,3 +9,5 @@ Config:
   *  ../client$ yarn
 3) $ cd ..
   * /aedes-zone$ npm run dev
+
+-- agregate sab 02/19 10:29 4) yarn add axios
