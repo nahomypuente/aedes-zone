@@ -35,60 +35,78 @@ var data = JSON.stringify(json_result);
 fs.writeFileSync('./final-json.in', data);
 var jsontData = JSON.parse(fs.readFileSync('./final-json.in', 'utf8'));
 
+var jsonWithCoordinates = JSON.parse(fs.readFileSync('./prov_coord.json', 'utf8'));
 
 // Functions
 
 var isIn = (nombre, arr) => {
-    return(arr.some(function(elem){ return elem.provincia == nombre}));
+    return(arr.some((elem) => { return elem.name == nombre}));
 }
 
 var getProvince = (prov, jss) => {
     let provinces = [];
-    for(let i = 0; i<jss.length; i++) {
-
+    for (let i = 0; i<jss.length; i++) {
+      
         var num_de_casos = parseInt(jss[i].cantidad_casos);
-        if(!isIn(jss[i].provincia_nombre, provinces)){
-        	let enf = jss[i].evento_nombre;
-            provinces.push({
-            	provincia: jss[i].provincia_nombre,
-            	enfermedad: enf,
-            	numero_de_casos: num_de_casos
+        //si no existe provincia, agregar
+        if (!isIn(jss[i].provincia_nombre, provinces)) {
+          let enf = jss[i].evento_nombre;
+          provinces.push({
+            id: parseInt(jss[i].provincia_id),
+            name: jss[i].provincia_nombre,
+            title: jss[i].provincia_nombre,
+            disease: enf,
+            cases_number: num_de_casos,
+          });
+
+        } else {
+            var provincia = provinces.find((elem) => { 
+              return elem.name == jss[i].provincia_nombre 
             });
-
-        } else
-        {
-			var provincia = provinces.find(function(elem) { return elem.provincia ==jss[i].provincia_nombre });
-			
-			provincia.numero_de_casos += num_de_casos;
+            
+            provincia.cases_number += num_de_casos;
         }
-
 
     }
     return provinces
 }
 
+var addCoordenatesProv = (provinces, arrCoordProv) => {
+  for (let i=0; i<arrCoordProv.length; i++) {
+    provinces.map((elem) => {
+      if (elem.name == arrCoordProv[i].nombre) {
+        elem.lat = arrCoordProv[i].coord.lat;
+        elem.lng = arrCoordProv[i].coord.lng;
+      }
+    })
+  }
+  return provinces;
+}
+  
 
-
-var provincia = getProvince('', jsontData);
-
+var ProvWithoutCoord = getProvince('', jsontData);
+var ProvWithCoord = addCoordenatesProv(ProvWithoutCoord, jsonWithCoordinates);
+var Provinces = ProvWithCoord;
+//console.log(Provinces);
 
 //Routes
 
 const router = express.Router();
 
-router.get('/api/provinces/:nombre', (req, res) => {
-  var nombreProv = req.params.nombre;
-  console.log(nombreProv);
+//No me hace falta el /api/provinces/:name, con handleclick sale solo
+router.get('/api/provinces/:name', (req, res) => {
+  var nameProv = req.params.name;
+  console.log(nameProv);
   res.status(200).json(
-    provincia.find((elem) => { 
-      return elem.provincia == nombreProv
+    Provinces.find((elem) => { 
+      return elem.name == nameProv
     })
   );
 });
 
 router.get('/api/provinces', (req, res) => {
-    console.log("entro");
-  res.status(200).json(provincia);
+  console.log("entro");
+  res.status(200).json(Provinces);
 });
 
 app.use(router);

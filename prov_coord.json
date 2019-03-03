@@ -1,0 +1,16 @@
+[
+    {"nombre": "Buenos Aires", "coord":{"lat": -34.6131516,"lng": -58.3772316}},
+    {"nombre": "CABA", "coord": {"lat": -34.599722222222, "lng": -58.381944444444}},
+    {"nombre": "Córdoba", "coord": {"lat": -31.4134998,"lng": -64.1810532}},
+    {"nombre": "Santa Fe", "coord": {"lat": -31.6333294, "lng": -60.7000008}},
+    {"nombre": "Salta", "coord": {"lat": -24.7859001, "lng": -65.4116592}},
+    {"nombre": "Chaco", "coord": {"lat":-27.4605598, "lng": -58.9838905}},
+    {"nombre": "Santiago del Estero", "coord": {"lat": -27.7656200, "lng": -64.3101200}}, 
+    {"nombre": "Corrientes", "coord": {"lat": -27.4806004, "lng": -58.8340988}},
+    {"nombre": "Jujuy", "coord": {"lat":-24.1945705, "lng": -65.2971191}},
+    {"nombre": "Entre Ríos", "coord": { "lat": -31.7319698, "lng": -60.5237999}},
+    {"nombre": "Neuquén", "coord": { "lat": -38.9516106, "lng": -68.0590973}},
+    {"nombre": "Misiones", "coord": { "lat": -27.3670807, "lng": -55.89608}},
+    {"nombre": "Tucumán", "coord": {"lat": -26.8241400, "lng": -65.2226000}},
+    {"nombre": "Formosa", "coord": {"lat": 26.183333, "lng": -58.1781400}}
+]
